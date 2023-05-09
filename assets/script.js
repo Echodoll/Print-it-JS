@@ -38,9 +38,25 @@ function carrousel() {
 		if (i === imageIndex) {
 			icone.classList.add('dot_selected')
 		}
+		icone.addEventListener('click', function () {
+			console.log('ok dots');
+			if (i !== imageIndex) {
+				imageIndex = i;
+				carrousel();
+			}
+		});
 	};
+};
+function animation() {
+	let next = document.querySelector(".next");
+	next.classList.add('active')
+	setTimeout(() => {
+		next.classList.remove('active');
+	}, 600);
+	console.log(imageIndex);
 
 }
+
 carrousel();
 arrow_left.addEventListener('click', function () {
 	console.log('ok');
@@ -48,6 +64,7 @@ arrow_left.addEventListener('click', function () {
 	if (imageIndex <= -1) {
 		imageIndex = slides.length - 1;
 	}
+	animation();
 	carrousel();
 });
 arrow_right.addEventListener('click', function () {
@@ -55,10 +72,10 @@ arrow_right.addEventListener('click', function () {
 	imageIndex++;
 	if (imageIndex >= slides.length) {
 		imageIndex = 0;
+
 	}
 	carrousel();
 });
-
 
 
 
