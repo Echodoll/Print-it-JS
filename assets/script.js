@@ -18,7 +18,7 @@ const slides = [
 ]
 
 const arrow_left = document.querySelector('.arrow_left');
-const arrow_right = document.querySelector('.arrow_right')
+const arrow_right = document.querySelector('.arrow_right');
 
 let imageIndex = 0;
 let picture = document.querySelector('.banner-img');
@@ -29,29 +29,36 @@ let paragraph = banner.querySelector("p");
 function carrousel() {
 	picture.src = slides[imageIndex].image;
 	paragraph.innerHTML = slides[imageIndex].tagLine;
+	const parent = document.querySelector('.dots');
+	parent.innerHTML = '';
+	for (let i = 0; i < slides.length; i += 1) {
+		const icone = document.createElement('div');
+		icone.classList.add('dot');
+		parent.appendChild(icone);
+		if (i === imageIndex) {
+			icone.classList.add('dot_selected')
+		}
+	};
 
 }
-
+carrousel();
 arrow_left.addEventListener('click', function () {
 	console.log('ok');
-	imageIndex--
-	if (imageIndex <= 0) {
+	imageIndex--;
+	if (imageIndex <= -1) {
 		imageIndex = slides.length - 1;
 	}
 	carrousel();
 });
 arrow_right.addEventListener('click', function () {
 	console.log("ok");
-	imageIndex++
+	imageIndex++;
 	if (imageIndex >= slides.length) {
 		imageIndex = 0;
 	}
 	carrousel();
 });
 
-const parent = document.querySelector('.dots');
-for (let i = 0; i < slides.length; i += 1) {
-	const icone = document.createElement('div');
-	icone.classList.add('dot');
-	parent.appendChild(icone);
-};
+
+
+
