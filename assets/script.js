@@ -24,11 +24,10 @@ let imageIndex = 0;
 let picture = document.querySelector('.banner-img');
 let banner = document.getElementById("banner");
 let paragraph = banner.querySelector("p");
-
+let next = document.getElementById("slider");
+let previous = document.getElementById("slider_droite");
 
 function carrousel() {
-	picture.src = slides[imageIndex].image;
-	paragraph.innerHTML = slides[imageIndex].tagLine;
 	const parent = document.querySelector('.dots');
 	parent.innerHTML = '';
 	for (let i = 0; i < slides.length; i += 1) {
@@ -40,40 +39,81 @@ function carrousel() {
 		}
 		icone.addEventListener('click', function () {
 			console.log('ok dots');
-			if (i !== imageIndex) {
+			if (i !== imageIndex || i !== imageAnime) {
 				imageIndex = i;
+				imageAnime = i;
+				picture.src = slides[imageIndex].image;
+				paragraph.innerHTML = slides[imageAnime].tagLine;
 				carrousel();
 			}
 		});
+
 	};
 };
-function animation() {
-	let next = document.querySelector(".next");
-	next.classList.add('active')
-	setTimeout(() => {
-		next.classList.remove('active');
-	}, 600);
-	console.log(imageIndex);
-
+function dots() {
+	const parent = document.querySelector('.dots');
+	const dots = parent.querySelectorAll('.dot');
+	dots.forEach((dot, i) => {
+		if (i === imageIndex) {
+			dot.classList.add('dot_selected');
+		} else {
+			dot.classList.remove('dot_selected');
+		}
+	});
 }
 
 carrousel();
+
 arrow_left.addEventListener('click', function () {
 	console.log('ok');
+	const imageAnime = (imageIndex - 1 + slides.length) % slides.length;
 	imageIndex--;
 	if (imageIndex <= -1) {
 		imageIndex = slides.length - 1;
 	}
-	animation();
+	paragraph.innerHTML = slides[imageAnime].tagLine;
+	next.src = slides[imageAnime].image;
+	picture.classList.add('active');
+	next.classList.add('active', 'next')
+	next.classList.remove('next_anime')
+	picture.classList.add('previous');
+	picture.classList.remove('active')
+	setTimeout(() => {
+		picture.classList.add('active')
+		picture.classList.remove('previous')
+		next.classList.remove('active', 'next');
+		next.classList.add('next_anime');
+		picture.classList.remove('active');
+		picture.src = slides[imageIndex].image;
+	}, 800);
+	dots();
 	carrousel();
+
 });
 arrow_right.addEventListener('click', function () {
 	console.log("ok");
+	const imageAnimeDroite = (imageIndex + 1 + slides.length) % slides.length;
 	imageIndex++;
 	if (imageIndex >= slides.length) {
 		imageIndex = 0;
-
 	}
+	paragraph.innerHTML = slides[imageIndex].tagLine;
+	previous.src = slides[imageAnimeDroite].image;
+	picture.classList.add('active');
+	previous.classList.add('active',);
+	previous.classList.remove('previous_anime')
+	picture.classList.add('next');
+	picture.classList.remove('active');
+	setTimeout(() => {
+		picture.classList.add('active');
+		picture.classList.remove('next');
+		previous.classList.remove('previous', 'active');
+		previous.classList.add('previous_anime')
+		picture.classList.remove('active');
+		picture.src = slides[imageIndex].image;
+	}, 800);
+
+	dots();
 	carrousel();
 });
 
