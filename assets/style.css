@@ -141,6 +141,7 @@ header {
 }
 .previous_anime{
 	transform: translateX(-100%);
+	z-index: 1;
 
 }
 .next_anime{
